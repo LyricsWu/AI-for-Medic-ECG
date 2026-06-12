@@ -21,7 +21,7 @@ Raw ECG data and generated `.npy` files are not included in this repository.
 
 ## Pipeline
 
-### 1. Inspect one ECG record
+### Inspect one ECG record
 
 ```bash
 python inspect_one_record.py
