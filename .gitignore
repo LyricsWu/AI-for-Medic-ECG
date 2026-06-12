@@ -39,6 +39,12 @@ output_multilabel/
 output_split/
 model_output/
 
+prediction_output/
+evaluation_output/
+threshold_tuning_output/
+
+
+
 # =========================
 # Large numpy / model files
 # =========================
