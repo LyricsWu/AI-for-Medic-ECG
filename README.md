@@ -15,6 +15,36 @@ The project includes scripts for:
 
 ---
 
+## Dataset Download
+
+The ECG records used in this project can be downloaded from PhysioNet:
+
+```text
+https://physionet.org/content/ecg-arrhythmia/1.0.0/
+```
+
+Dataset name:
+
+```text
+A large scale 12-lead electrocardiogram database for arrhythmia study v1.0.0
+```
+
+After downloading the dataset, place the WFDB records under the local `data/` folder:
+
+```text
+AI for Medic ECG/
+├── data/
+│   ├── JS00001.hea
+│   ├── JS00001.mat
+│   ├── JS00002.hea
+│   ├── JS00002.mat
+│   └── ...
+```
+
+Raw ECG files are not included in this GitHub repository because the dataset files are large.
+
+---
+
 ## Dataset Format
 
 Each ECG record consists of a pair of files:
@@ -284,164 +314,3 @@ python train_1d_cnn.py
 
 Model setting:
 
-```text
-Input shape:  (5000, 12)
-Output shape: (20,)
-Activation:   sigmoid
-Loss:         binary_crossentropy
-Task:         multi-label classification
-```
-
-Generated files:
-
-```text
-model_output/ecg_1d_cnn_best.keras
-model_output/ecg_1d_cnn_final.keras
-model_output/training_history.csv
-model_output/test_predictions.npy
-model_output/test_metrics.txt
-```
-
----
-
-## Multi-label Classification
-
-This project is a multi-label classification task.
-
-One ECG sample may have more than one diagnosis code, for example:
-
-```text
-164889003,59118001,164934002
-```
-
-Therefore, the label vector is multi-hot encoded:
-
-```text
-[0, 1, 0, 1, 0, ...]
-```
-
-The model should use:
-
-```text
-sigmoid activation
-binary cross-entropy loss
-```
-
-Do not use:
-
-```text
-softmax
-categorical cross-entropy
-```
-
-because those are for single-label multi-class classification.
-
----
-
-## Data Summary
-
-After preprocessing and label filtering:
-
-```text
-Total samples: 10199
-Signal shape:  (5000, 12)
-Number of labels: 20
-```
-
-Per-sample label count distribution:
-
-```text
-1 label : 5481 samples
-2 labels: 2921 samples
-3 labels: 1153 samples
-4 labels: 458 samples
-5 labels: 140 samples
-6 labels: 38 samples
-7 labels: 6 samples
-8 labels: 2 samples
-```
-
----
-
-## Selected Diagnosis Labels
-
-The final dataset keeps 20 high-frequency diagnosis labels.
-
-Examples of selected Dx codes:
-
-```text
-426177001
-164934002
-426783006
-164889003
-427084000
-55827005
-428750005
-426761007
-59118001
-164890007
-```
-
-The complete mapping is stored in:
-
-```text
-output_multilabel/label_map.csv
-output_split/label_map.csv
-```
-
----
-
-## Git Ignore Policy
-
-The following folders and files are ignored by Git:
-
-```text
-data/
-output/
-output_multilabel/
-output_split/
-model_output/
-.venv/
-*.npy
-*.npz
-*.mat
-*.hea
-*.keras
-*.h5
-```
-
-This is intentional because raw ECG data, generated NumPy arrays, and trained models can be very large.
-
-Only source code and configuration files are tracked in this repository.
-
----
-
-## Reproducibility
-
-The split script uses a fixed random seed by default:
-
-```text
-random_state = 42
-```
-
-The train / validation / test indices are saved in:
-
-```text
-output_split/split_indices.npz
-```
-
-This makes it possible to reproduce the same dataset split.
-
----
-
-## Notes
-
-This repository contains the preprocessing and baseline training pipeline only.
-
-The raw ECG dataset must be placed locally under:
-
-```text
-data/
-```
-
-before running the scripts.
