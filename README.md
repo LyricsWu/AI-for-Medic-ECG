@@ -13,7 +13,6 @@ The project includes scripts for:
 
 > Raw ECG data and generated `.npy` files are not included in this repository.
 
----
 
 ## Dataset Format
 
